@@ -1,0 +1,603 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+    margin-bottom: 65px;
+}
+
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.Home-hero {
+    height: 50vh;
+    justify-content: center;
+}
+
+.Home-heroContent {
+    width: 90vw;
+    position: relative;
+}
+
+
+.Home-searchBox {
+    width: 100%;
+    justify-content: center;
+}
+
+
+.Home-icon {
+    width: 25px;
+    height: 25px;
+    fill: #d28273;
+    position: absolute;
+    right: 15px;
+}
+
+
+
+.Home-input {
+    width: 100%;
+    font-size: 18px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #DBDBDB;
+    box-shadow: 0 5px 20px rgba(156, 160, 171, 0.25);
+    color: #444;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.Home-suggestionsContainer {
+    margin: 5px 0 0;
+    padding: 0;
+    font-size: 12px;
+    position: absolute;
+    overflow: hidden;
+    width: calc(100% + 30px);
+    border-top: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 5px 0 rgba(0,0,0,.2);
+    border-left: 1px solid rgba(100,100,100,.2);
+    z-index: 199999;
+    background-color: #fff;
+}
+
+.FeaturedList-tile {
+    display: inline-block;
+    background-size: contain;
+    width: 50%;
+    height: 47.5vw;
+    transform: translate3d(0,0,0);
+    cursor: pointer;
+}
+
+.FeaturedList-container {
+    line-height: 0;
+    padding: 0 2.5vw 2.5vw 2.5vw;
+}
+
+/*CATEGORIES HEADER*/
+
+.Categories-menu {
+    background-color: #fff;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    font-weight: normal;
+    display: inline-flex;
+    flex-flow: column wrap;
+    padding-left: 30px;
+    max-height: 95vh;
+    box-sizing: border-box;
+}
+
+.Categories-section {
+    line-height: normal;
+    width: 50%;
+    margin-bottom: 15px;
+}
+
+.Categories-title {
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: 1px solid black;
+}
+
+.Categories-category {
+    line-height: normal;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 3px 0;
+}
+
+.Categories-category:hover {
+    color: #888;
+}
+
+.Categories-header {
+    position: sticky;
+    top: -1px;
+    padding: 10px 0;
+    background-color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    color: #333;
+    z-index: 9999;
+}
+
+.Categories-select {
+    display: inline-flex;
+    align-items: center;
+    color: #d28273;
+}
+
+.Auth-position {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+}
+
+.Auth-loginBtn {
+    padding: 7px 15px 7px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid black;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+    .Auth-loginBtn > img {
+        width: 75px;
+        height: 23px;
+    }
+
+.Auth-user {
+    border-radius: 50%;
+    margin-left: 30px;
+}
+
+.SearchBox-suggestionItem {
+    font-family: Lato,sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.SearchBox-container {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+
+.SearchBox-suggestion {
+    padding: 15px 10px;
+    background: #fff;
+    cursor: pointer;
+    text-align: left;
+    color: #444;
+    box-sizing: border-box;
+}
+
+    .SearchBox-suggestion:hover {
+        color: #888; /*#F7A6AF;*/
+    }
+
+.SearchBox-suggestionItem {
+    font-family: Lato,sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.Playlist-playlist {
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.Playlist-header {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    width: 100%;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.Playlist-gradient {
+    position: absolute;
+    width: 100%;
+    height: 150px;
+    bottom: 0;
+    background: -webkit-linear-gradient(top,transparent,rgba(0,0,0,.8));
+    background: linear-gradient(180deg,transparent 0,rgba(0,0,0,.8));
+    z-index: 10;
+}
+
+.Playlist-title {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 28px;
+    z-index: 20;
+}
+
+.Playlist-closeBtn {
+    background-color: rgba(0,0,0,.5);
+    padding: 3px 3px 2px 20px;
+    margin-top: 10px;
+    float: left;
+    cursor: pointer;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.Playlist-saveBtn {
+    float: right;
+    margin: 10px 15px;
+    cursor: pointer;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 10px;
+    background-color: #d28273;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.Playlist-loader {
+    height: 100vh;
+    justify-content: center;
+}
+
+
+.Playlist-input {
+    width: 100%;
+    border-radius: 4px;
+    padding: 15px 10px 15px 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: none;
+}
+
+.Playlist-suggestionsContainer {
+    margin: 5px 0 0;
+    padding: 0;
+    font-size: 12px;
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    border-top: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 5px 0 rgba(0,0,0,.2);
+    border-left: 1px solid rgba(100,100,100,.2);
+    z-index: 199999;
+    background-color: #fff;
+}
+
+.Playlist-controls {
+    justify-content: space-between;
+}
+
+
+.Player-popup {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 65px;
+    visibility: visible;
+    z-index: 3000;
+    background-color: #383838;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.Player-info {
+    color: white;
+    width: 40%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.Player-info > img {
+    display: none;
+}
+
+.Player-artistName {
+    font-size: 0.9em;
+}
+
+.Player-controls {
+    display: inline-block;
+    padding: 0 15px;
+    width: 60%;
+}
+
+.Player-buttons {
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.Player-buttons > svg {
+    cursor: pointer;
+}
+
+
+
+.Player-progress {
+    height: 5px;
+    border-radius: 4px;
+    background-color: #333;
+    cursor: pointer;
+    z-index: 2000;
+    position: relative;
+    overflow: hidden;
+}
+
+.Player-progress > .Player-bar {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+
+.Player-progress > .Player-bar > div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: white;
+}
+
+.Track-container {
+    padding: 15px 5px;
+    border-bottom: 1px solid #e1e1e6;
+    position: relative;
+    color: #444; /*#11113f;*/
+    box-sizing: border-box;
+}
+
+.Track-tools {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.Track-container:hover .Track-tools {
+    visibility: visible !important;
+}
+
+.Track-tools svg {
+    fill: #e48f7f;
+}
+
+.Track-tools li {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.Track-tools li:first-child {
+    width: 70%;
+    margin-right: auto;
+}
+
+.Track-name {
+    margin-left: 40px;
+    font-size: 1.12em;
+    max-width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.Modal-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    justify-content: center;
+    z-index: 6000;
+    background-color: rgba(0,0,0, 0.7)
+}
+
+.Modal-content {
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    padding: 50px;
+    position: relative;
+}
+
+.PlaylistSettings-header {
+    color: #888;
+    font-size: 2em;
+}
+
+.PlaylistSettings-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #d28273;
+    cursor: pointer;
+}
+
+.PlaylistSettings-submitBtn {
+    background-color: #d28273;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 25px;
+    font-size: 1.2em;
+}
+
+.PlaylistSettings-input {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.PlaylistSettings-radio {
+    color: #999;
+    font-size: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.PlaylistSettings-radio + .PlaylistSettings-radio {
+    margin-left: 10px;
+}
+
+.PlaylistSettings-radio span {
+    position: relative;
+    padding-left: 20px;
+}
+
+.PlaylistSettings-radio span:after {
+    content: '';
+    width: 15px;
+    height: 15px;
+    border: 3px solid;
+    position: absolute;
+    left: 0;
+    top: 1px;
+    border-radius: 100%;
+    -ms-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.PlaylistSettings-radio input[type="radio"] {
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"
+}
+
+.PlaylistSettings-radio input[type="radio"]:checked + span {
+    color: #0B8;
+}
+
+.PlaylistSettings-radio input[type="radio"]:checked + span:before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    background: #0B8;
+    left: 5px;
+    top: 6px;
+    border-radius: 100%;
+    -ms-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+}
+
+@media (min-width: 800px) {
+    body {
+        font-size: 16px;
+        margin-bottom: 70px;
+    }
+    .FeaturedList-tile {
+        background-size: cover;
+        width: 33.333%;
+        height: 31.667vw;
+    }
+
+    .Categories-section {
+        width: 33.333%;
+    }
+
+    .Categories-menu {
+        max-height: 50vh;
+    }
+    .Home-heroContent {
+        width: 700px;
+    }
+
+    .Home-input {
+        font-size: 28px;
+    }
+
+    .Auth-loginBtn > img {
+        width: 90px;
+        height: 27px;
+    }
+
+    .Playlist-playlist {
+        padding: 20px;
+    }
+
+    .Player-popup {
+        width: 600px;
+        right: 5px;
+        height: 70px;
+        bottom: 5px;
+        left: auto;
+        padding: 15px;
+    }
+
+    .Player-info > img {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .Player-buttons {
+        padding: 0 10%;
+    }
+
+    .Track-container {
+        padding: 15px 20px 15px 10px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .FeaturedList-tile {
+        width: 25%;
+        height: 23.75vw;
+    }
+
+    .FeaturedList-container {
+        box-sizing: border-box;
+    }
+
+    .Categories-section {
+        width: 25%;
+    }
+
+    .Categories-menu {
+        max-height: 40vh;
+    }
+}
