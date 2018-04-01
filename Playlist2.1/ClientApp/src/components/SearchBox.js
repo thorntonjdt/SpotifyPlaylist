@@ -53,6 +53,8 @@ class SearchBox extends React.Component {
     }
 }
 
+SearchBox.displayName = "SearchBox";
+
 export default connect(
     state => state.search,
     dispatch => bindActionCreators(actionCreators, dispatch)

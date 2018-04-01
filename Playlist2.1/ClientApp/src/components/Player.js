@@ -4,23 +4,16 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../store/Player';
 
 class Player extends React.Component {
-    constructor() {
-        super();
-        this.is_progress_dirty = false;
-        this.startSettingProgress = this.startSettingProgress.bind(this);
-        this.stopSettingProgress = this.stopSettingProgress.bind(this);
-        this.onUpdate = this.onUpdate.bind(this);
-        this.setProgress = this.setProgress.bind(this);
-    }
+
     componentDidUpdate(prevProps) {
         if (this.props.loadedTrack) {
-            if (this.props.loadedTrack != prevProps.loadedTrack) {
+            if (this.props.loadedTrack !== prevProps.loadedTrack) {
                 this.audio.load();
                 this.audio.play();
-                setInterval(this.onUpdate, 150)
+                setInterval(this.onUpdate, 150);
                 this.audio.addEventListener('ended', this.props.playNext);
             }
-            if (this.props.isPlaying != prevProps.isPlaying) {
+            if (this.props.isPlaying !== prevProps.isPlaying) {
                 if (prevProps.isPlaying) {
                     this.audio.pause();
                 } else {
@@ -29,23 +22,24 @@ class Player extends React.Component {
             }
         }
     }
-    onUpdate() {
-        if (this.audio) {
-            if (!this.is_progress_dirty) {
-                let progress = this.audio.currentTime / this.audio.duration
-                this.props.updateProgress(progress);
-            }
+
+    is_progress_dirty = false;
+
+    onUpdate =() => {
+        if (this.audio && !this.is_progress_dirty) {
+            let progress = this.audio.currentTime / this.audio.duration;
+            this.props.updateProgress(progress);
         }
     }
-    startSettingProgress(evt) {
+    startSettingProgress = (evt) => {
         this.props.setProgressMode(true);
         this.setProgress(evt);
     }
-    stopSettingProgress(evt) {
+    stopSettingProgress = (evt) => {
         this.props.setProgressMode(false);
         this.setProgress(evt);
     }
-    setProgress(evt) {
+    setProgress = (evt) => {
         if (this.props.settingProgress) {
             var progress = (evt.clientX - offsetLeft(this.progress_bar)) / this.progress_bar.clientWidth;
             this.props.updateProgress(progress);
@@ -83,22 +77,22 @@ class Player extends React.Component {
                     </div>
                     <div className='Player-controls'>
                         <div className='Player-buttons row'>
-                            <svg onClick={this.props.playPrevious} fill="#fff" height="28" viewBox="0 0 24 24" width="28" >
+                            <svg onClick={this.props.playPrevious} height="28" viewBox="0 0 24 24" width="28" >
                                 <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
                                 <path d="M0 0h24v24H0z" fill="none" />
                             </svg>
                             {isPlaying
-                                ? <svg onClick={this.props.togglePlay} fill="#fff" height="28" viewBox="0 0 24 24" width="28" >
+                                ? <svg onClick={this.props.togglePlay} height="28" viewBox="0 0 24 24" width="28" >
                                     <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                                     <path d="M0 0h24v24H0z" fill="none" />
                                 </svg>
 
-                                : <svg onClick={this.props.togglePlay} xmlns="http://www.w3.org/2000/svg" fill="#fff" height="28" viewBox="0 0 24 24" width="28">
+                                : <svg onClick={this.props.togglePlay} xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 0 24 24" width="28">
                                     <path d="M8 5v14l11-7z" />
                                     <path d="M0 0h24v24H0z" fill="none" />
                                 </svg>
                             }
-                            <svg onClick={this.props.playNext} fill="#fff" height="28" viewBox="0 0 24 24" width="28">
+                            <svg onClick={this.props.playNext} height="28" viewBox="0 0 24 24" width="28">
                                 <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                                 <path d="M0 0h24v24H0z" fill="none" />
                             </svg>
@@ -130,6 +124,8 @@ function offsetLeft(el) {
     }
     return left;
 }
+
+Player.displayName = "Player";
 
 export default connect(
     state => state.player,

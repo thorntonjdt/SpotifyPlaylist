@@ -1,22 +1,20 @@
 ﻿import React from 'react';
 
 class PlaylistSettings extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            value: '',
-            selectedOption: null
-        }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleOptionChange = this.handleOptionChange.bind(this);
+    state = {
+        value: '',
+        selectedOption: null
     }
-    handleChange(event) {
+    handleChange = (event) => {
         this.setState({ value: event.target.value });
     }
-    handleOptionChange(event) {
+    handleOptionChange = (event) => {
         this.setState({
             selectedOption: event.target.value
         });
+    }
+    handleSubmit = () => {
+        this.props.savePlaylist(this.state.value, this.state.selectedOption)
     }
     render() {
         return (
@@ -37,12 +35,14 @@ class PlaylistSettings extends React.Component {
                         <span> Private </span> 
                     </label>
                 </div>
-                <div className='PlaylistSettings-submitBtn'>
+                <div onClick={this.handleSubmit} className='PlaylistSettings-submitBtn'>
                     Save Playlist
                 </div>
             </div>    
         )
     }
 }
+
+PlaylistSettings.displayName = "PlaylistSettings";
 
 export default PlaylistSettings;

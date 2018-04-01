@@ -5,11 +5,15 @@ import Playlist from './components/Playlist';
 import Player from './components/Player';
 import Modal from './components/Modal';
 
-export default () => (
+const App = () =>
     <div>
         <Player />
         <Route exact path='/' component={Home} />
         <Route path='/playlist' component={Playlist} />
         <Modal />
     </div>
-);
+
+
+export default App;
+
+App.displayName = "App";

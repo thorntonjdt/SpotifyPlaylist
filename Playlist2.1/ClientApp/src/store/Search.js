@@ -12,8 +12,14 @@ export const actionCreators = {
     makeSelection: (selection) => ({ type: makeSelection, selection: selection }),
 
     requestSuggestions: ({ value }) => async (dispatch, getState) => {
-        let suggestions = await autocomplete(value, getState().auth.token);
-        dispatch({ type: receiveSuggestions, suggestions: suggestions.tracks.items });
+        try {
+            let suggestions = await autocomplete(value, getState().auth.token);
+            dispatch({ type: receiveSuggestions, suggestions: suggestions.tracks.items });
+        } catch (e) {
+            console.log(e);
+            dispatch({ type: "SHOW_ERROR", error: "Error" });
+        }
+        
     },
 
     clearSuggestions: () => ({ type: clearSuggestions })

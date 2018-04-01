@@ -11,7 +11,7 @@ const Track = (props) => {
     const handleReSearch = () => {
         props.handleReSearch(props.track)
     }
-    const handlePlay = () => {
+    const handlePlay = (e) => {
         if (props.isSelected) {
             props.togglePlay();
         }
@@ -60,6 +60,8 @@ const Track = (props) => {
         </li>
     );
 }
+
+Track.displayName = "Track";
 
 export default connect(
     ({ player }, { track }) => ({ isPlaying: player.loadedTrack && (player.loadedTrack.track.id === track.id) && player.isPlaying, isSelected: player.loadedTrack && (player.loadedTrack.track.id === track.id) }),

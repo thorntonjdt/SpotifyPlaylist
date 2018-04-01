@@ -1,44 +1,53 @@
 ﻿import { push } from 'react-router-redux';
-import { getPlaylists, getCategories, getToken, getPlaylistsByCategory } from '../utils/SpotifyManager';
+import { getPlaylists, getToken, getPlaylistsByCategory } from '../utils/SpotifyManager';
 
 const requestPlaylists = 'REQUEST_PLAYLISTS';
 const receivePlaylists = 'RECEIVE_PLAYLISTS';
-const initialState = { playlists: [], categories: null, categoryName: "Featured", isLoading: false };
+const initialState = { playlists: [], categoryName: "Featured", isLoading: false };
 
 export const actionCreators = {
     requestFeaturedPlaylists: () => async (dispatch, getState) => {
-        if (getState().playlists.categories) {
+        if (getState().playlists.playlists.length > 0) {
             return;
         }
 
         dispatch({ type: requestPlaylists });
 
-        var token = getState().auth.token;
-        var expires = getState().auth.expiration;
+        try {
+            var token = getState().auth.token;
+            var expires = getState().auth.expiration;
 
-        if (token && expires > Date.now()) {
-            //If we have access get playlists and categories
-            let [{ playlists }, categories] = await Promise.all([getPlaylists(token), getCategories(token)])
+            if (token && expires > Date.now()) {
+                //If we have access get playlists and categories
+                let { playlists } = await getPlaylists(token);
+                dispatch({ type: receivePlaylists, playlists: playlists.items, categoryName: "Featured" })
 
-            dispatch({ type: receivePlaylists, playlists: playlists.items, categories: categories, categoryName: "Featured" })
-            
-        } else {
-            //Else get token
-            let token = await getToken();
-            dispatch({ type: 'RECEIVE_TOKEN', token: token });
+            } else {
+                //Else get token
+                let token = await getToken();
+                dispatch({ type: 'RECEIVE_TOKEN', token: token });
 
-            let [{ playlists }, categories] = await Promise.all([getPlaylists(token), getCategories(token)])
-
-            dispatch({ type: receivePlaylists, playlists: playlists.items, categories: categories, categoryName: "Featured" })
+                let { playlists } = await getPlaylists(token);
+                dispatch({ type: receivePlaylists, playlists: playlists.items, categoryName: "Featured" })
+            }
+        } catch (e) {
+            console.log(e);
+            dispatch({ type: "SHOW_ERROR", error: "Error" });
         }
+        
     },
     requestPlaylistsByCategory: (categoryName, id) => async (dispatch, getState) => {
         dispatch({ type: requestPlaylists });
 
-        var token = getState().auth.token;
-        let { playlists } = await getPlaylistsByCategory(id, token);
+        try {
+            var token = getState().auth.token;
+            let { playlists } = await getPlaylistsByCategory(id, token);
 
-        dispatch({ type: receivePlaylists, playlists: playlists.items, categoryName: categoryName })
+            dispatch({ type: receivePlaylists, playlists: playlists.items, categoryName: categoryName })
+        } catch (e) {
+            console.log(e);
+            dispatch({ type: "SHOW_ERROR", error: "Error" });
+        }
     },
     viewTracks: (playlist) => (dispatch, getState) => {
         dispatch({ type: 'MAKE_SELECTION', selection: playlist });
@@ -59,7 +68,6 @@ export const reducer = (state, action) => {
     if (action.type === receivePlaylists) {
         return {
             playlists: action.playlists,
-            categories: action.categories || state.categories,
             categoryName: action.categoryName,
             isLoading: false
         };

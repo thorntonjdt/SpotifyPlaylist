@@ -26,7 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\MusicPlayer - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\Playlist - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\Playlist20180330121054 - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\images\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

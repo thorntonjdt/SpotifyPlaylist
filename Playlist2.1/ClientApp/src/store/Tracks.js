@@ -1,4 +1,4 @@
-﻿import { getTrack, getTracks, getPlaylistTracks, getToken, savePlaylist } from '../utils/SpotifyManager';
+﻿import { getTrack, getTracks, getPlaylistTracks, getPlaylist, getToken, savePlaylist } from '../utils/SpotifyManager';
 
 const receivePlaylist = "RECEIVE_PLAYLIST";
 const requestPlaylist = "REQUEST_PLAYLIST";
@@ -10,86 +10,105 @@ const initialState = { mainTrack: {}, tracks: [], isLoading: false, userPlaylist
 export const actionCreators = {
     makePlaylist: (id) => async (dispatch, getState) => {
         dispatch({ type: requestPlaylist });
+        try {
+            var { token, expiration } = getState().auth;
+            var { selection } = getState().search;
+            if (token && expiration > Date.now()) {
+                if (selection) {
+                    let { tracks, mainTrack } = await getTracks(selection, token);
 
-        var { token, expiration } = getState().auth;
-        var { selection } = getState().search;
-        if (token && expiration > Date.now()) {
-            if (selection) {
-                let { tracks, mainTrack } = await getTracks(selection, token);
+                    dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
 
-                dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
+                } else {
 
+                    let track = await getTrack(id, token);
+                    let { tracks, mainTrack } = await getTracks(selection, token);
+
+                    dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
+                    dispatch({ type: 'MAKE_SELECTION', selection: track });
+                }
             } else {
 
-                let track = await getTrack(id, token);
-                let { tracks, mainTrack } = await getTracks(selection, token);
+                let token = getToken();
+                dispatch({ type: "RECEIVED_TOKEN", token: token })
+                if (selection) {
 
-                dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
-                dispatch({ type: 'MAKE_SELECTION', selection: track });
+                    let { tracks, mainTrack } = await getTracks(selection, token)
+
+                    dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
+
+                } else {
+                    let token = await getToken();
+                    dispatch({ type: "RECEIVED_TOKEN", token: token })
+
+                    let track = await getTrack(id, token);
+                    let { tracks, mainTrack } = await getTracks(track, token);
+
+                    dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
+                    dispatch({ type: 'MAKE_SELECTION', selection: track });
+                }
             }
-        } else {
+        } catch(e) {
+            console.log(e)
+            dispatch({ type: "SHOW_ERROR", error: "Error" });
+        }
+        
+    },
+    getPlaylist: (id) => async (dispatch, getState) => {
+        dispatch({ type: requestPlaylist })
 
-            let token = getToken();
-            dispatch({ type: "RECEIVED_TOKEN", token: token })
-            if (selection) {
+        try {
+            var { token, expiration } = getState().auth;
+            var { selection } = getState().search;
+            if (token && expiration > Date.now()) {
 
-                let { tracks, mainTrack } = await getTracks(selection, token)
+                let tracks = await getPlaylistTracks(id, token);
+                dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: { image: selection.images[0].url, title: selection.name }, userPlaylist: true })
 
+            } else {
+                let token = await getToken();
+                dispatch({ type: "RECEIVED_TOKEN", token: token })
+
+                let playlist = await getPlaylist(id, token);
+                let tracks = await getPlaylistTracks(id, token);
+                dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: { image: playlist.images[0].url, title: playlist.name }, userPlaylist: true })
+                dispatch({ type: 'MAKE_SELECTION', selection: playlist })
+            }
+        } catch (e) {
+            console.log(e)
+            dispatch({ type: "SHOW_ERROR", error: "Error" });
+        }
+        
+    },
+
+    handleReSearch: (track) => async (dispatch, getState) => {
+        var { token, expiration } = getState().auth;
+        var { selection } = getState().search;
+        try {
+            if (token && expiration > Date.now()) {
+
+                let { tracks, mainTrack } = await getTracks(selection, token);
                 dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
 
             } else {
                 let token = await getToken();
                 dispatch({ type: "RECEIVED_TOKEN", token: token })
 
-                let track = await getTrack(id, token);
                 let { tracks, mainTrack } = await getTracks(track, token);
-
                 dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
-                dispatch({ type: 'MAKE_SELECTION', selection: track });
             }
+        } catch (e) {
+            console.log(e)
+            dispatch({ type: "SHOW_ERROR", error: "Error" });
         }
-    },
-    getPlaylist: (id) => async (dispatch, getState) => {
-        dispatch({ type: requestPlaylist })
-
-        var { token, expiration } = getState().auth;
-        var { selection } = getState().search;
-        if (token && expiration > Date.now()) {
-
-            let tracks = await getPlaylistTracks(id, token);
-            dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: { image: selection.images[0].url, title: selection.name }, userPlaylist: true })
-
-        } else {
-            let token = await getToken()
-            dispatch({ type: "RECEIVED_TOKEN", token: token })
-
-            let tracks = await getPlaylistTracks(id, token);
-            dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: { image: selection.images[0].url, title: selection.name }, userPlaylist: true })
-        }
-    },
-
-    handleReSearch: (track) => async (dispatch, getState) => {
-        var { token, expiration } = getState().auth;
-        var { selection } = getState().search;
-        if (token && expiration > Date.now()) {
-
-            let { tracks, mainTrack } = await getTracks(selection, token);
-            dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
-
-        } else {
-            let token = await getToken();
-            dispatch({ type: "RECEIVED_TOKEN", token: token })
-
-            let { tracks, mainTrack } = await getTracks(track, token);
-            dispatch({ type: receivePlaylist, tracks: tracks, mainTrack: mainTrack, userPlaylist: false })
-        }
+        
     },
     savePlaylist: () => ({ type: "SET_MODAL", isOpen: "playlist" }),
 
     addTrack: () => (dispatch, getState) =>
         dispatch({ type: addTrack, track: getState().search.selection }),
 
-    removeTrack: (index) => ({ type: removeTrack, index: index }),
+    removeTrack: (index) => ({ type: removeTrack, index: index })
 };
 
 

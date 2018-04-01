@@ -10,16 +10,23 @@ class FeaturedList extends React.PureComponent {
         this.props.requestFeaturedPlaylists();
     }
     render() {
-        const { isLoading, playlists, categories, categoryName, requestPlaylistsByCategory, viewTracks } = this.props;
+        const {
+            isLoading,
+            playlists,
+            categoryName,
+            requestPlaylistsByCategory,
+            viewTracks
+        } = this.props;
+
         if (isLoading) {
             return (
-                <div>Loading...</div>
-            )
+                <div className='FeaturedList-loader'>Loading...</div>
+            );
         }
 
         return (
             <div className='FeaturedList-container' >
-                <CategoriesHeader categories={categories} categoryName={categoryName} handleSelect={requestPlaylistsByCategory} />
+                <CategoriesHeader categoryName={categoryName} handleSelect={requestPlaylistsByCategory} />
                 {playlists.map(playlist =>
                     <span
                         key={playlist.id}
@@ -30,10 +37,12 @@ class FeaturedList extends React.PureComponent {
                     </span>
                 )}
             </div>
-        )
+        );
     }
 
 }
+
+FeaturedList.displayName = "FeaturedList";
 
 export default connect(
     state => state.playlists,

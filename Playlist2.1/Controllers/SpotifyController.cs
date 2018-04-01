@@ -23,7 +23,7 @@ namespace Playlist2._1.Controllers
             Console.WriteLine("Hello");
             string url5 = "https://accounts.spotify.com/api/token";
 
-            string auth = "02917ec1f58141e6ab4386be7230172d:2ae02dcd1dad414e8112d84d22d1181c";
+            string auth = "your_spotify_clientId:your_spotify_client_secret";
 
             byte[] auth_byte = Encoding.UTF8.GetBytes(auth);
             var auth_mod = Convert.ToBase64String(auth_byte); //clientid is modded to Base 64 encoded     string

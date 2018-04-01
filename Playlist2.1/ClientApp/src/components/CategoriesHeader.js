@@ -1,15 +1,8 @@
-﻿﻿import React from 'react';
+﻿import React from 'react';
 
-export class CategoriesHeader extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            menuOpen: false
-        }
-        this.handleClick = this.handleClick.bind(this);
-        this.toggleMenu = this.toggleMenu.bind(this);
-        this.scrollToTop = this.scrollToTop.bind(this);
-    }
+class CategoriesHeader extends React.Component {
+    state = { menuOpen: false }
+
     componentDidMount() {
         document.addEventListener('click', this.handleClick, false);
     }
@@ -17,23 +10,23 @@ export class CategoriesHeader extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('click', this.handleClick, false);
     }
-    handleClick(e) {
+    handleClick = (e) => {
         if (!this.node.contains(e.target) && this.state.menuOpen) {
-            this.setState({menuOpen: false})
+            this.setState({ menuOpen: false });
         }
     }
-    toggleMenu() {
+    toggleMenu = () => {
         let { menuOpen } = this.state;
         if (!menuOpen) {
-            this.scrollToTop()
+            this.scrollToTop();
         }
         this.setState({ menuOpen: !menuOpen });
     }
-    scrollToTop(){
+    scrollToTop = () => {
         this.top.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     }
     render() {
-        const { categoryName, categories } = this.props;
+        const { categoryName } = this.props;
         return (
             <div ref={top => { this.top = top; }} >
                 <div className='Categories-header' onClick={this.toggleMenu} ref={node => { this.node = node; }}>
@@ -45,20 +38,18 @@ export class CategoriesHeader extends React.Component {
                     </span>
                     {this.state.menuOpen &&
                         <div className='Categories-menu'>
-                            {categories.letters.map(letter =>
-                                <span key={letter} className='Categories-section'>
-                                    <span className='Categories-title'>{letter}</span>
-                                    {categories[letter].map(category =>
-                                        <div key={category.id} onClick={() => {this.props.handleSelect(category.name, category.id)}} className='Categories-category'>{category.name}</div>
-                                    )}
-                                </span>
-                            )}
-                        </div>
+                        <div onClick={() => { this.props.handleSelect("Featured", 'featured-playlists') }} className='Categories-category'>Featured</div>
+                        <div onClick={() => { this.props.handleSelect("Top", 'categories/toplists/playlists') }} className='Categories-category'>Top</div>
+                        <div onClick={() => { this.props.handleSelect("Focus", 'categories/focus/playlists') }} className='Categories-category'>Focus</div>
+                        <div onClick={() => { this.props.handleSelect("Chill", 'categories/chill/playlists') }} className='Categories-category'>Chill</div>
+                    </div>
                     }
                 </div>
             </div>
         );
     }
 }
+
+CategoriesHeader.displayName = "CategoriesHeader";
 
 export default CategoriesHeader;

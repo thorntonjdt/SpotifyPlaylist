@@ -19,6 +19,8 @@ const SpotifyAuth = ({ user, login, logout }) => {
     )
 }
 
+SpotifyAuth.displayName = "SpotifyAuth";
+
 export default connect(
     ({ auth }) => ({ user: auth.user }),
     dispatch => bindActionCreators(actionCreators, dispatch)

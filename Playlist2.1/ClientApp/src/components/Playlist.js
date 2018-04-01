@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { parse } from 'query-string';
+import qs from 'qs';
 import { Parallax } from 'react-parallax';
 import { actionCreators } from '../store/Tracks';
 
@@ -13,7 +13,7 @@ import loader from '../images/loading.svg';
 
 class Playlist extends React.Component {
     componentWillMount() {
-        let parsed = parse(this.props.location.search);
+        let parsed = qs.parse(this.props.location.search.slice(1));
         if (parsed.make) {
             this.props.makePlaylist(parsed.make);
         }
@@ -88,6 +88,8 @@ class Playlist extends React.Component {
         )
     }
 }
+
+Playlist.displayName = "Playlist";
 
 export default connect(
     state => state.tracks,

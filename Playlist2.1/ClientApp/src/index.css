@@ -94,6 +94,68 @@ input:focus {
     padding: 0 2.5vw 2.5vw 2.5vw;
 }
 
+.FeaturedList-loader,
+.FeaturedList-loader:before,
+.FeaturedList-loader:after {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.8s infinite ease-in-out;
+    animation: load7 1.8s infinite ease-in-out;
+}
+
+.FeaturedList-loader {
+    color: #d28273;
+    font-size: 10px;
+    margin: 50px auto;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.FeaturedList-loader:before,
+.FeaturedList-loader:after {
+    content: '';
+    position: absolute;
+    top: 0;
+}
+
+.FeaturedList-loader:before {
+    left: -3.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+    .FeaturedList-loader:after {
+        left: 3.5em;
+    }
+
+@-webkit-keyframes load7 {
+    0%, 80%, 100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}
+
+@keyframes load7 {
+    0%, 80%, 100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}
+
 /*CATEGORIES HEADER*/
 
 .Categories-menu {
@@ -101,25 +163,16 @@ input:focus {
     position: absolute;
     top: 40px;
     left: 0;
-    width: 100%;
     font-weight: normal;
     display: inline-flex;
     flex-flow: column wrap;
-    padding-left: 30px;
+    font-weight: 700;
+    color: #555;
+    padding: 5px 25px;
     max-height: 95vh;
+    text-align: center;
     box-sizing: border-box;
-}
-
-.Categories-section {
-    line-height: normal;
-    width: 50%;
-    margin-bottom: 15px;
-}
-
-.Categories-title {
-    font-size: 15px;
-    font-weight: 600;
-    border-bottom: 1px solid black;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .Categories-category {
@@ -130,7 +183,7 @@ input:focus {
 }
 
 .Categories-category:hover {
-    color: #888;
+    color: #d28273;
 }
 
 .Categories-header {
@@ -157,7 +210,7 @@ input:focus {
 }
 
 .Auth-loginBtn {
-    padding: 7px 15px 7px 15px;
+    padding: 7px 15px 3px 15px;
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid black;
@@ -243,12 +296,15 @@ input:focus {
 
 .Playlist-closeBtn {
     background-color: rgba(0,0,0,.5);
-    padding: 3px 3px 2px 20px;
+    padding: 7px;
     margin-top: 10px;
+    margin-left: 10px;
     float: left;
     cursor: pointer;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Playlist-saveBtn {
@@ -303,9 +359,9 @@ input:focus {
     right: 0;
     left: 0;
     bottom: 0;
-    height: 65px;
+    height: 50px;
     visibility: visible;
-    z-index: 3000;
+    z-index: 7000;
     background-color: #383838;
     padding: 10px;
     justify-content: space-between;
@@ -340,8 +396,12 @@ input:focus {
 
 .Player-buttons > svg {
     cursor: pointer;
+    fill: hsla(0,0%,100%,.8);
 }
 
+    .Player-buttons > svg:hover {
+        fill: #fff;
+    }
 
 
 .Player-progress {
@@ -362,14 +422,18 @@ input:focus {
     bottom: 0px;
 }
 
-.Player-progress > .Player-bar > div {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 50%;
-    background: white;
-}
+    .Player-progress > .Player-bar > div {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        background: hsla(0,0%,100%,.8);
+    }
+
+    .Player-progress > .Player-bar > div:hover {
+        background: #fff;
+    }
 
 .Track-container {
     padding: 15px 5px;
@@ -390,7 +454,7 @@ input:focus {
 }
 
 .Track-tools svg {
-    fill: #e48f7f;
+    fill: #d28273;
 }
 
 .Track-tools li {

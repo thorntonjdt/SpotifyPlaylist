@@ -10,16 +10,18 @@ export const actionCreators = {
 
     login: () => async (dispatch, getState) => {
 
-        let token = await login();
-        dispatch({ type: receiveToken, token: token });
+        try {
+            let token = await login();
+            dispatch({ type: receiveToken, token: token });
 
-        let user = await getUser(token);
-        dispatch({ type: receiveUser, user: user });
-        
+            let user = await getUser(token);
+            dispatch({ type: receiveUser, user: user });
+        } catch (e) {
+            console.log(e);
+            dispatch({ type: "SHOW_ERROR", error: "Error" });
+        }
     },
-    logout: () => (dispatch, getState) => {
-        dispatch({ type: logout });
-    }
+    logout: () => ({ type: logout })
 };
 
 export const reducer = (state, action) => {

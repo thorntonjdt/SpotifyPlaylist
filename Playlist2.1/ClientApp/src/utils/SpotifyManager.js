@@ -1,46 +1,12 @@
 ﻿import { makePlaylist } from './PlaylistMaker';
 
 const limit = 20;
-
-function sectionize(items) {
-    var list = { letters: [] };
-    for (var i = 0; i < items.length; i++) {
-        var letter = items[i].name[0];
-        if (!(letter in list)) {
-            list[letter] = [];
-            list.letters.push(letter);
-        }
-        list[letter].push(items[i]);
-    }
-    return list;
-}
+const clientId = "02917ec1f58141e6ab4386be7230172d";
 
 export const getPlaylists = (token) =>
     fetch('https://api.spotify.com/v1/browse/featured-playlists?limit=12', {
         headers: { Authorization: `Bearer ${token}` }
     }).then((response) => response.json())
-
-
-export const getCategories = (token) =>
-    fetch('https://api.spotify.com/v1/browse/categories',
-        {
-            headers: { Authorization: `Bearer ${token}` }
-        }
-    ).then(response => response.json())
-        .then(({ categories }) => {
-            var items = categories.items;
-            items.sort((a, b) => {
-                var nameA = a.name
-                if (a.name < b.name) {
-                    return -1;
-                }
-                if (a.name > b.name) {
-                    return 1;
-                }
-                return 0;
-            })
-            return sectionize(items);
-        })
 
 export const getToken = () =>
     fetch('api/spotify/publictoken', {
@@ -61,7 +27,7 @@ export const autocomplete = (name, token) =>
 export const login = () => {
     return new Promise((resolve, reject) => {
         let url = 'https://accounts.spotify.com/en/authorize?response_type=token&client_id=' +
-            '02917ec1f58141e6ab4386be7230172d&redirect_uri=' + encodeURIComponent("https://localhost:44365/api/spotify/login") +
+            clientId + '&redirect_uri=' + encodeURIComponent("https://localhost:44365/api/spotify/login") +
             '&scope=' + encodeURIComponent('playlist-modify-public playlist-modify-private');
         window.open(
             url,
@@ -82,7 +48,7 @@ export const getUser = (token) =>
     }).then(response => response.json())
 
 export const getPlaylistsByCategory = (id, token) =>
-    fetch(`https://api.spotify.com/v1/browse/categories/${id}/playlists`, {
+    fetch(`https://api.spotify.com/v1/browse/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
     }).then((response) => response.json())
 
@@ -146,6 +112,11 @@ export const getPlaylistTracks = (id, token) =>
             }
             return tracks;
         })
+
+export const getPlaylist = (id, token) => 
+    fetch(`https://api.spotify.com/v1/users/spotify/playlists/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    }).then(response => response.json())
 
 export const savePlaylist = (token, userId, name, isPublic, tracks) => {
     return new Promise((resolve, reject) =>

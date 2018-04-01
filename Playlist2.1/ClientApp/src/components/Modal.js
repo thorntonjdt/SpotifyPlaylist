@@ -11,18 +11,16 @@ class Modal extends React.Component {
         this.renderContent = this.renderContent.bind(this);
     }
     renderContent() {
-        let { isLoading, error, success, isOpen } = this.props;
-        if (isLoading) {
-            return <div>Loading...</div>
+        let { error, isOpen } = this.props;
+
+        if (isOpen === "loading") {
+            return <div>Loading...</div>;
         }
         else if (error) {
-            return <div>Error</div>
+            return <div onClick={this.props.closeModal}>{error}</div>;
         }
-        else if (success) {
-            return <div>Success</div>
-        }
-        else if (isOpen == "playlist") {
-            return <PlaylistSettings close={this.props.closeModal} />
+        else if (isOpen === "playlist") {
+            return <PlaylistSettings savePlaylist={this.props.savePlaylist} close={this.props.closeModal} />;
         }
     }
     render() {
@@ -35,12 +33,14 @@ class Modal extends React.Component {
                         {this.renderContent()}
                     </div>
                 </div>
-            )
+            );
         }
 
         return null;
     }
 }
+
+Modal.displayName = "Modal";
 
 export default connect(
     state => state.modal,
